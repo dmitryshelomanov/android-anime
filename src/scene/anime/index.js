@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-
 import {
   Text,
   StyleSheet,
@@ -8,17 +7,13 @@ import {
   Image,
   FlatList,
   RefreshControl,
-  Modal,
-  Pur
+  Modal
 } from "react-native";
-
 import ToUp from "../../components/toUp";
-
 import { connect } from "react-redux";
-
 import { allAnime } from "../../redux/actions/getAnime";
-
 import Card from "../../components/anime/card";
+
 
 class Anime extends Component { 
   constructor(props) { 
@@ -28,9 +23,6 @@ class Anime extends Component {
       offset: 0,
       refreshing: true,
       y: 0,
-      modalVisible: false,
-      animeById: -1,
-      loadedById: false,
       hundlerMore: true
     };
   } 

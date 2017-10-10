@@ -100,6 +100,7 @@ class Search extends Component {
           onEndReachedThreshold={0.5}
           ref={(ref) => { _scrollView = ref; }}
           onScroll={(e) => { 
+            console.log(e.nativeEvent);
             this.setState({ y: e.nativeEvent.contentOffset.y });
           }}
         />
