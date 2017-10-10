@@ -1,45 +1,30 @@
 import React, { Component } from "react";
-
 import {
   Text,
   TextInput,
   View,
   StyleSheet,
   Dimensions,
-  Picker,
   FlatList,
   Animated
 } from "react-native";
-
 import { connect } from "react-redux";
-
 import Icon from 'react-native-vector-icons/Ionicons';
-
 import Card from "../../components/anime/card";
-
 import ToUp from "../../components/toUp";
-
 import buildHttpGET from "../../helpers/buildHttpGET";
-
+import Picker from "./picker";
 
 class Search extends Component { 
 
   constructor(props) { 
     super(props);
     this.state = {
-      genre: undefined,
-      type: undefined,
-      year: undefined,
       showPickers: false,
       animation: new Animated.Value(0)
     };
   } 
   
-  _searchData() { 
-    const { genre, year, type } = this.state;
-    console.log(buildHttpGET(genre, year, type));
-  }
-
   showPickers() { 
     this.setState({
       showPickers: !this.state.showPickers,
@@ -48,11 +33,10 @@ class Search extends Component {
         return this._animationShow();
       }
       this._animationHide();
-      this._searchData();
     });
   }
 
-  _animationShow() { 
+  _animationShow() {
     Animated.timing(this.state.animation, {
       toValue: 1,
       duration: 100,
@@ -61,11 +45,13 @@ class Search extends Component {
   }
 
   _animationHide() { 
+    const { onHide } = this.props;
+
     Animated.timing(this.state.animation, {
       toValue: 0,
       duration: 100,
       useNativeDriver: true
-    }).start();
+    }).start(() => onHide());
   }
 
   _renderArrowDown() { 
@@ -91,65 +77,49 @@ class Search extends Component {
   }
 
   _renderYearPicker() { 
+    const { setField, selectedYear } = this.props;
+
     return (
-      <View>
-        <Text>Год</Text>
-        <Picker
-          selectedValue={this.state.year}
-          onValueChange={(itemValue, itemIndex) => { 
-            this.setState({ year: itemValue }, () => {
-              this._searchData();
-            });
-          }}
-        >
-          <Picker.Item label="Не выбрано" value="" /> 
-          <Picker.Item label="2000" value="2000" />
-          <Picker.Item label="2001" value="2001" />
-        </Picker>
-      </View>
+      <Picker
+        title={"Год"}
+        selectedValue={selectedYear}
+        onValueChange={(itemValue, itemIndex) => { 
+          setField("year", itemValue);
+        }}
+        items={[]}
+      />
     );
   }
 
   _renderGenrePicker() { 
+    const { setField, selectedGenre } = this.props;
+
     return (
-      <View>
-        <Text>Жанр</Text>
-        <Picker
-          selectedValue={this.state.genre}
-          onValueChange={(itemValue, itemIndex) => { 
-            this.setState({ genre: itemValue }, () => {
-              this._searchData();
-            });
-          }}
-        >
-          <Picker.Item label="Не выбрано" value="" /> 
-          <Picker.Item label="Драма" value="Драма" />
-          <Picker.Item label="Мистика" value="Мистика" />
-        </Picker>
-      </View>
+      <Picker
+        title={"Жанр"}
+        selectedValue={selectedGenre}
+        onValueChange={(itemValue, itemIndex) => { 
+          setField("genre", itemValue);
+        }}
+        items={[]}
+      />
     );
   }
 
   _renderTypePicker() { 
+    const { setField, selectedType } = this.props;
+
     return (
-      <View>
-        <Text>Тип</Text>
-        <Picker
-          selectedValue={this.state.type}
-          onValueChange={(itemValue, itemIndex) => { 
-            this.setState({ type: itemValue }, () => {
-              this._searchData();
-            });
-          }}
-        >
-          <Picker.Item label="Не выбрано" value="" />  
-          <Picker.Item label="Аниме" value="Аниме" />
-          <Picker.Item label="Дорама" value="Дорама" />
-        </Picker>
-      </View>
+      <Picker
+        title={"Тип"}
+        selectedValue={selectedType}
+        onValueChange={(itemValue, itemIndex) => { 
+          setField("type", itemValue);
+        }}
+        items={[]}
+      />
     );
   }
-
 
   render() { 
     const { navigation, anime } = this.props;
@@ -164,21 +134,16 @@ class Search extends Component {
       <View>
         {this._renderArrowDown()}
         <Animated.View style={[styles.pickers, { transform: [{translateY: anim}] }]}>
-
+          {this._renderYearPicker()}
+          {this._renderTypePicker()}
+          {this._renderGenrePicker()}
         </Animated.View>
       </View>
     );
   }
 };
 
-export default connect(
-  state => ({}),
-  dispatch => ({
-    onSearch(type, genre, year) {   
-      //
-    }
-  })
-)(Search);
+export default Search;
 
 const styles = StyleSheet.create({
   pickers: {
