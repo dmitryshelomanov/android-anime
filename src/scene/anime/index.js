@@ -8,7 +8,8 @@ import {
   Image,
   FlatList,
   RefreshControl,
-  Modal
+  Modal,
+  Pur
 } from "react-native";
 
 import ToUp from "../../components/toUp";
@@ -29,7 +30,8 @@ class Anime extends Component {
       y: 0,
       modalVisible: false,
       animeById: -1,
-      loadedById: false
+      loadedById: false,
+      hundlerMore: true
     };
   } 
 
@@ -60,17 +62,21 @@ class Anime extends Component {
     });
   }
 
-  _hundleMore() { 
-    this.setState({ 
-      limit: this.state.limit,
-      offset: this.state.offset === 0 ? 20 : this.state.offset + this.state.offset
-    }, () => { 
-      this.props.onGetAnime(
-        this.state.limit,
-        this.state.offset,
-        false
-      );
-    });
+  _hundleMore() {
+    if (this.state.hundlerMore) {
+      this.setState({ hundlerMore: false });
+      this.setState({ 
+        limit: this.state.limit,
+        offset: this.state.offset === 0 ? 20 : this.state.offset + 20
+      }, () => { 
+        this.props.onGetAnime(
+          this.state.limit,
+          this.state.offset,
+          false
+        );
+        this.setState({ hundlerMore: true });
+      });
+    }
   }
 
   render() { 

@@ -15,7 +15,7 @@ import { connect } from "react-redux";
 import { getFavorite } from "../../redux/actions/getAnime";
 
 import config from "../../config";
-import AutoHeightImage from 'react-native-auto-height-image';
+import ImagePreload from '../../components/image/imagesPreload';
 import arraytoString from "../../helpers/arrayToString";
 import replacer from "../../helpers/replacer";
 
@@ -36,6 +36,7 @@ class AnimebyId extends Component {
   }
 
   _addToStorage(anime) { 
+    
     const { onGetFavorite } = this.props;
     const obj = {
       AnimeId: anime.AnimeId,
@@ -84,8 +85,8 @@ class AnimebyId extends Component {
     
     return (
       <ScrollView>
-        <AutoHeightImage
-          imageURL={`${config.animeImg}${anime.AnimeId}/${anime.ImageUrl}`}
+        <ImagePreload
+          uri={`${config.animeImg}${anime.AnimeId}/${anime.ImageUrl}`}
           width={config.defaultWidth}
         />
         <View style={styles.age}> 

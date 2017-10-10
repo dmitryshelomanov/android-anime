@@ -54,7 +54,7 @@ class LastNews extends Component {
               style={{ flex: 1, flexDirection: "row", justifyContent: "flex-start", paddingTop: 5, paddingBottom: 5 }}
               key={item.AnimeId}
             >
-              <Text style={{marginRight: 30, fontWeight: "bold", color: "#000"}}>{item.Rating}</Text>
+              <Text style={{marginRight: 30, fontWeight: "bold", color: "#000"}}>{item.Rating.toFixed(1)}</Text>
               <Text
                 onPress={() => navigation.navigate("AnimeById", {id: item.AnimeId, title: item.Title})}
               >

@@ -10,13 +10,15 @@ import {
   WebView,
   ToastAndroid
 } from 'react-native';
-import AutoHeightImage from 'react-native-auto-height-image';
+
 import { connect } from "react-redux";
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import config from "../../config";
 
 import { getlastNews } from "../../redux/actions/article";
+
+import ImagePreload from "../../components/image/imagesPreload";
 
 class LastNews extends Component {
 
@@ -65,9 +67,6 @@ class LastNews extends Component {
   render() {
     const { lastNews } = this.props;
     const direction = Dimensions.get("window").width < 500 ? "column" : "row";
-    const defaultWidth = (Dimensions.get("window").width < 500) ? Dimensions.get("window").width
-      : (Dimensions.get("window").width < 768) ? Dimensions.get("window").width / 2
-      : Dimensions.get("window").width / 3;
     
     return (
       <View>
@@ -87,12 +86,12 @@ class LastNews extends Component {
         {
           lastNews.map((item, index) => (
             <View
-              style={{ flexDirection: direction, marginBottom: 25, width: defaultWidth }}
+              style={{ flexDirection: direction, marginBottom: 25, width: config.defaultWidth }}
               key={index}
             >
-              <AutoHeightImage
-                width={defaultWidth}
-                imageURL={`${config.articleImg}${item.ArticleId}/${item.ImageUrl}`}
+              <ImagePreload
+                width={config.defaultWidth}
+                uri={`${config.articleImg}${item.ArticleId}/${item.ImageUrl}`}
               />
               <Text
                 style={{ color: "#f80000", fontSize: 15, padding: 5 }}

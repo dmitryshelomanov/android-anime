@@ -9,7 +9,7 @@ import {
 
 import arraytoString from "../../helpers/arrayToString";
 import config from "../../config"
-import AutoHeightImage from 'react-native-auto-height-image';
+import ImagePreload from '../../components/image/imagesPreload';
 
 class Card extends Component {
   render() {
@@ -20,9 +20,9 @@ class Card extends Component {
         <View style={styles.age}> 
           <Text style={{ color: "#fff", fontWeight: "bold" }}>{item.AgeLimit}+</Text>
         </View>
-        <AutoHeightImage
-          imageURL={`${config.animeImg}${item.AnimeId}/${item.ImageUrl}`}
+        <ImagePreload
           width={config.defaultWidth}
+          uri={`${config.animeImg}${item.AnimeId}/${item.ImageUrl}`}
         />
         <View style={styles.info}>
           <Text style={styles.infoTitle} onPress={() => touch(item.AnimeId, item.Title)}>  

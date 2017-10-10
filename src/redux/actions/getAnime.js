@@ -29,7 +29,7 @@ export const getFavorite = (cb = undefined) => dispatch => {
   AsyncStorage.getItem("favorite", (err, val) => { 
     if (err) throw err;
     val = JSON.parse(val);
-    dispatch({ type: 'Anime/FAVORITE', payload: val });
+    dispatch({ type: 'Anime/FAVORITE', payload: val || []});
     if (cb !== undefined) cb();
   });
 };

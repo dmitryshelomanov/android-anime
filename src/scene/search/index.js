@@ -6,81 +6,70 @@ import {
   View,
   StyleSheet,
   Dimensions,
-  Picker
+  Picker,
+  FlatList
 } from "react-native";
+
+import { connect } from "react-redux";
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
-export default class Anime extends Component { 
+import Card from "../../components/anime/card";
+
+import ToUp from "../../components/toUp";
+
+import PickerRender from "../../components/search/renderPicker";
+
+class Search extends Component { 
+
   constructor(props) { 
     super(props);
     this.state = {
-      text: "",
-      genre: undefined,
-      type: undefined,
-      year: undefined
+      y: 0
     };
-  }
+  } 
 
-  _renderYearPicker() { 
-    return (
-      <Picker
-        selectedValue={this.state.year}
-        onValueChange={(itemValue, itemIndex) => this.setState({ year: itemValue })}
-      >
-        <Picker.Item label="2000" value="2000" />
-        <Picker.Item label="2001" value="2001" />
-      </Picker>
-    );
-  }
+  _hundleMore() { 
 
-  _renderGenrePicker() { 
-    return (
-      <Picker
-        selectedValue={this.state.genre}
-        onValueChange={(itemValue, itemIndex) => this.setState({ genre: itemValue })}
-      >
-        <Picker.Item label="Драма" value="Драма" />
-        <Picker.Item label="Мистика" value="Мистика" />
-      </Picker>
-    );
-  }
-
-  _renderTypePicker() { 
-    return (
-      <Picker
-        selectedValue={this.state.type}
-        onValueChange={(itemValue, itemIndex) => this.setState({ type: itemValue })}
-      >
-        <Picker.Item label="Аниме" value="Аниме" />
-        <Picker.Item label="Дорама" value="Дорама" />
-      </Picker>
-    );
   }
 
   render() { 
+    const { navigation, anime } = this.props;
+    let _scrollView = undefined;
+
     return (
-      <View style={{ flex: 1, padding: 5, backgroundColor: "#fff" }}>
-        <View style={styles.pickers}>
-          {this._renderGenrePicker()}
-          {this._renderTypePicker()}
-          {this._renderYearPicker()}
-        </View>
-        <Text>search</Text>
+      <View style={{ flex: 1, backgroundColor: "#fff" }}>
+        <ToUp
+          toUp={() => _scrollView.scrollToOffset({ offset: 0, animated: true })}
+          scrollY={this.state.y}
+        />
+        
+        <PickerRender />
+        
+        <FlatList
+          style={{zIndex: 1}}  
+          data={anime}
+          renderItem={({ item }) => <Card item={item} touch={(id, title) => navigation.navigate("AnimeById", { id, title }) }/>}
+          keyExtractor={(item) => item.AnimeId}
+          onEndReached={() => this._hundleMore()}
+          onEndReachedThreshold={0.5}
+          ref={(ref) => { _scrollView = ref; }}
+          onScroll={(e) => { 
+            this.setState({ y: e.nativeEvent.contentOffset.y });
+          }}
+        />
       </View>
     );
   }
-}
+};
+
+export default connect(
+  state => ({
+    anime: state.favorite
+  }),
+  dispatch => ({})
+)(Search);
 
 const styles = StyleSheet.create({
-  search: {
-    alignItems: "center",
-    borderBottomWidth: .5,
-    borderBottomColor: "#f80000",
-    width: Dimensions.get("window").width - 10,
-    padding: 5
-  },
-  pickers: {
-    marginBottom: 20
-  }
+
 });
