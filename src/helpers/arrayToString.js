@@ -1,3 +1,7 @@
 export default (array = [], field = "name") => { 
-  return item[field].join(",");
+  var newData = [];
+  array.forEach(function(item) {
+     newData.push(item[field]);
+  });
+  return newData.join(",");
 };
