@@ -14,8 +14,9 @@ export default class Animaunt extends Component {
   }
 
   render() {
-    return <App />
+    return <App />;
   }
-}
+
+};
 
 AppRegistry.registerComponent('Animaunt', () => Animaunt);

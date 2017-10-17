@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet
+} from 'react-native';
 
 import AutoHeightImage from 'react-native-auto-height-image';
 

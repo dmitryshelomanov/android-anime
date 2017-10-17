@@ -10,7 +10,6 @@ import search from './reducers/anime/search';
 
 import lastNews from './reducers/article/lastNews';
 
-
 export default combineReducers({
   nav,
   anime,

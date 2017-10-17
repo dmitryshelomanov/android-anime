@@ -30,7 +30,7 @@ class AnimebyId extends Component {
 
   componentWillMount() { 
     const { anime, favorite } = this.props;
-    if (favorite.find(item => item.AnimeId === anime.AnimeId)) { 
+    if (favorite.data.find(item => item.AnimeId === anime.AnimeId)) { 
       this.setState({ star: false });
     };
   }
@@ -82,7 +82,7 @@ class AnimebyId extends Component {
 
   _renderAnime() { 
     const { anime } = this.props;
-    
+
     return (
       <ScrollView>
         <ImagePreload
@@ -130,7 +130,7 @@ class AnimebyId extends Component {
           <Text style={[styles.primaryText, {color: "#657182"}]}>  
             Даберы: {arraytoString(anime.Dubs, "Title")}
           </Text>
-          <Text style={[styles.primaryText, {fontSize: 14}]}>  
+          <Text style={[styles.primaryText, styles.FullDescription, {fontSize: 14}]}>  
             {replacer(anime.FullDescription)}
           </Text>
         </View>
@@ -152,8 +152,8 @@ export default connect(
     favorite: state.favorite
   }),
   dispatch => ({
-    onGetFavorite: (cb) => { 
-      dispatch(getFavorite(cb))
+    onGetFavorite: () => { 
+      dispatch(getFavorite())
     }
   })
 )(AnimebyId);
@@ -192,5 +192,11 @@ const styles = StyleSheet.create({
     color: "#2e2e2e",
     fontSize: 15,
     lineHeight: 25
+  },
+  FullDescription: {
+    fontSize: 17,
+    fontWeight: '400',
+    lineHeight: 22,
+    letterSpacing: -0.408
   }
 });

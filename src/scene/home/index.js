@@ -3,16 +3,15 @@ import {
   Text,
   StyleSheet,
   View,
-  ScrollView
+  ScrollView,
+  StatusBar
 } from "react-native";
-
 import ToUp from "../../components/toUp";
-
 import LastNews from "../../components/home/lastNews";
 import Popular from "../../components/home/popular";
 
 class Home extends Component { 
-
+  
   constructor(props) { 
     super(props);
     this.state = {
@@ -20,11 +19,15 @@ class Home extends Component {
     };
   }
 
+  componentWillMount() { 
+    StatusBar.setBackgroundColor('#000', true);
+  }
+
   render() {
     const { navigation } = this.props;
 
     return (
-      <View style={{ flex:1 }}>
+      <View style={styles.container}> 
         <ToUp
           toUp={() => this.refs._scrollView.scrollTo({ x: 0, y: 0, animated: true })}
           scrollY={this.state.y}

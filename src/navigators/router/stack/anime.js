@@ -6,6 +6,8 @@ import React, { Component } from "react";
 
 import InfoScreen from "../../../scene/byId/info";
 import SeriesScreen from "../../../scene/byId/series";
+import ImageScreen from "../../../scene/byId/images";
+
 
 const TabRouteConfigs = {
   Info: {
@@ -22,6 +24,15 @@ const TabRouteConfigs = {
       title: "серии",
       tabBarIcon: ({ tintColor }) => (
         <Icon name="ios-film-outline" size={30} style={{color: tintColor}} />
+      )
+    }
+  },
+  Images: {
+    screen: ImageScreen,
+    navigationOptions: {
+      title: "превью",
+      tabBarIcon: ({ tintColor }) => (
+        <Icon name="ios-images-outline" size={30} style={{color: tintColor}} />
       )
     }
   }

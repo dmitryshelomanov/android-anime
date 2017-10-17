@@ -4,7 +4,8 @@ import { createStore, applyMiddleware } from "redux";
 import AppNavigator from "./navigators/appNavigator";
 import AppReducer from "./redux";
 import thunk from "redux-thunk";
-import ErrorBase from "./errorHundler/Default";
+import logger from 'redux-logger'
+import hundleProggres from "./helpers/middleware/hundleProggres";
 
 export default class App extends Component {
 
@@ -14,7 +15,9 @@ export default class App extends Component {
     this.store = createStore(
       AppReducer,
       applyMiddleware(
-        thunk
+        thunk,
+        logger,
+        hundleProggres
       )
     );
   }
@@ -22,9 +25,7 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={this.store}>
-        <ErrorBase>
-          <AppNavigator/>
-        </ErrorBase>
+        <AppNavigator/>
       </Provider>
     );
   }

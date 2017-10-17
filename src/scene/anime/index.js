@@ -13,62 +13,42 @@ import ToUp from "../../components/toUp";
 import { connect } from "react-redux";
 import { allAnime } from "../../redux/actions/getAnime";
 import Card from "../../components/anime/card";
-
+import Config from "../../config";
 
 class Anime extends Component { 
+
   constructor(props) { 
     super(props);
     this.state = {
-      limit: 20,
-      offset: 0,
-      refreshing: true,
-      y: 0,
-      hundlerMore: true
+      y: 0
     };
   } 
 
   componentDidMount() { 
-    this.props.onGetAnime(
-      this.state.limit,
-      this.state.offset,
-      true,
-      () => { 
-        this.setState({ refreshing: false });
-      }
+    const { anime, onGetAnime } = this.props;
+    onGetAnime(
+      anime.offset,
+      true
     );
   }
 
   _hundleRefresh() { 
-    this.setState({ 
-      refreshing: true,
-      offset: 0
-    }, () => { 
-      this.props.onGetAnime(
-        this.state.limit,
-        this.state.offset,
-        true,
-        () => { 
-          this.setState({ refreshing: false });
-        }
-      );
-    });
+    const { anime, onGetAnime } = this.props;
+
+    onGetAnime(
+      anime.offset,
+      true
+    );
   }
 
   _hundleMore() {
-    if (this.state.hundlerMore) {
-      this.setState({ hundlerMore: false });
-      this.setState({ 
-        limit: this.state.limit,
-        offset: this.state.offset === 0 ? 20 : this.state.offset + 20
-      }, () => { 
-        this.props.onGetAnime(
-          this.state.limit,
-          this.state.offset,
-          false
-        );
-        this.setState({ hundlerMore: true });
-      });
-    }
+    const { anime, onGetAnime } = this.props;
+    if (!anime.isLoading) { 
+      onGetAnime(
+        anime.offset,
+        false
+      );
+    };
   }
 
   render() { 
@@ -81,7 +61,7 @@ class Anime extends Component {
           scrollY={this.state.y}
         />
         <FlatList
-          data={anime}
+          data={anime.data}
           renderItem={({ item }) => <Card item={item} touch={(id, title) => navigation.navigate("AnimeById", { id, title }) }/>}
           keyExtractor={(item) => item.AnimeId}
           onEndReached={() => this._hundleMore()}
@@ -92,7 +72,7 @@ class Anime extends Component {
           }}
           refreshControl={
             <RefreshControl
-              refreshing={this.state.refreshing}
+              refreshing={anime.isLoading}
               onRefresh={this._hundleRefresh.bind(this)}
               colors={["red", "green", "black"]}
               progressBackgroundColor="#fff"
@@ -109,8 +89,8 @@ export default connect(
     anime: state.anime
   }),
   dispatch => ({
-    onGetAnime: (limit, offset, clear, cb) => { 
-      dispatch(allAnime(limit, offset, clear, cb));
+    onGetAnime: (offset, clear) => { 
+      dispatch(allAnime(Config.allAnime.limit, offset, clear));
     }
   })
 )(Anime);

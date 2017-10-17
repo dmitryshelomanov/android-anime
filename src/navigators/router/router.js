@@ -1,18 +1,23 @@
-import { TabNavigator, StackNavigator, TabBarBottom } from "react-navigation";
+import {
+  TabNavigator,
+  StackNavigator,
+  TabBarBottom,
+  Header
+} from "react-navigation";
 
 import Icon from 'react-native-vector-icons/Ionicons';
-
 import React, { Component } from "react";
-
 import MainNav from "./stack/main";
 import AnimeNav from "./stack/anime";
 
 const StackRouteConfigs = {
   Main: {
-    screen: MainNav
+    screen: MainNav,
+    key: "main"
   },
   AnimeById: {
-    screen: AnimeNav
+    screen: AnimeNav,
+    key: "main"
   }
 };
 

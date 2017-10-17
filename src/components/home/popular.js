@@ -25,9 +25,7 @@ class LastNews extends Component {
 
   componentWillMount() { 
     const { onGetMorePopular } = this.props;
-    onGetMorePopular(() => { 
-      this.setState({ loading: false });
-    });
+    onGetMorePopular();
   }
 
   render() {
@@ -40,7 +38,7 @@ class LastNews extends Component {
           <Text style={styles.title}>Самое популярное</Text>
         </View>
         {
-          !this.state.loading
+          !morePopular.isLoading
           ? null
           : <ActivityIndicator
               animating={this.state.loading}
@@ -49,7 +47,7 @@ class LastNews extends Component {
             />
         }
         {
-          morePopular.map(item => (
+          morePopular.data.map(item => (
             <View
               style={{ flex: 1, flexDirection: "row", justifyContent: "flex-start", paddingTop: 5, paddingBottom: 5 }}
               key={item.AnimeId}
@@ -73,8 +71,8 @@ export default connect(
     morePopular: state.morePopular
   }),
   dispatch => ({
-    onGetMorePopular: (cb) => { 
-      dispatch(morePopular(cb));
+    onGetMorePopular: () => { 
+      dispatch(morePopular());
     }
   })
 )(LastNews);

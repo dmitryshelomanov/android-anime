@@ -9,21 +9,21 @@ import { AsyncStorage } from "react-native";
  * @param {*} clear 
  * @param {*} cb 
  */  
-export const allAnime = (limit, offset, clear = false, cb = undefined) => dispatch => {
-  axios.get(`${config.server}Anime?Offset=${offset}&Limit=${limit}`).then(response => { 
-    dispatch({ type: 'Anime/GET', payload: response.data, clear });
-    if (cb !== undefined) cb();
+export const allAnime = (limit, offset, clear = false) => dispatch => {
+  dispatch({
+    request: () => axios.get(`${config.server}Anime?Offset=${offset}&Limit=${limit}`),
+    clear,
+    type: "Anime/GET"
   });
 };
 
 /**
  * Популярные аниме
- * @param {*} cb 
  */
-export const morePopular = (cb = undefined) => dispatch => {
-  axios.get(`${config.server}Anime?IsApprove=true&Offset=0&Limit=20&Sort=RatingDesc`).then(response => { 
-    dispatch({ type: 'Anime/POPULAR', payload: response.data });
-    if (cb !== undefined) cb();
+export const morePopular = () => dispatch => {
+  dispatch({
+    request: () => axios.get(`${config.server}Anime?IsApprove=true&Offset=0&Limit=20&Sort=RatingDesc`),
+    type: "Anime/POPULAR"
   });
 };
 
@@ -32,10 +32,10 @@ export const morePopular = (cb = undefined) => dispatch => {
  * @param {*} id 
  * @param {*} cb 
  */
-export const animeById = (id, cb = undefined) => dispatch => {
-  axios.get(`${config.server}Anime/${id}`).then(response => { 
-    dispatch({ type: 'Anime/BY_ID', payload: response.data });
-    if (cb !== undefined) cb();
+export const animeById = (id) => dispatch => {
+  dispatch({
+    request: () => axios.get(`${config.server}Anime/${id}`),
+    type: "Anime/BYID"
   });
 };
 
@@ -43,12 +43,10 @@ export const animeById = (id, cb = undefined) => dispatch => {
  * Избранные
  * @param {*} cb 
  */
-export const getFavorite = (cb = undefined) => dispatch => { 
-  AsyncStorage.getItem("favorite", (err, val) => { 
-    if (err) throw err;
-    val = JSON.parse(val);
-    dispatch({ type: 'Anime/FAVORITE', payload: val || []});
-    if (cb !== undefined) cb();
+export const getFavorite = () => dispatch => { 
+  dispatch({
+    request: () => AsyncStorage.getItem("favorite"),
+    type: "Anime/FAVORITE"
   });
 };
 
@@ -58,11 +56,5 @@ export const getFavorite = (cb = undefined) => dispatch => {
  * @param {*} cb 
  */
 export const searchAnime = (uri = undefined, offset, clear = true, cb = undefined) => dispatch => { 
-  uri += `&Offset=${offset}`;
-  axios.get(uri).then(response => {
-    dispatch({ type: 'Anime/SEARCH', payload: response.data, clear });
-    if (cb !== undefined) cb();
-  }).catch(err => {
-    throw err;
-  });
+
 };

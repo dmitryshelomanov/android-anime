@@ -23,18 +23,13 @@ class Info extends Component {
 
   constructor(props) { 
     super(props);
-    this.state = {
-      loader: true
-    };
   }
 
   componentWillMount() { 
     const { params } = this.props.navigation.state;
     const { onGetAnime } = this.props;
 
-    onGetAnime(params.id, () => { 
-      this.setState({ loader: false });
-    });
+    onGetAnime(params.id);
   }
 
   render() {
@@ -43,10 +38,10 @@ class Info extends Component {
     return (
       <View style={styles.container}>
         {
-          !this.state.loader
-            ? <AnimeById anime={anime} />
+          !anime.isLoading
+            ? <AnimeById anime={anime.data} />
             : <ActivityIndicator
-                animating={this.state.loader}
+                animating={anime.isLoading}
                 color={"#f80000"}
                 size="large"
               />  
@@ -68,8 +63,8 @@ export default connect(
     anime: state.animeById
   }),
   dispatch => ({
-    onGetAnime: (id, cb) => {
-      dispatch(animeById(id, cb));
+    onGetAnime: (id) => {
+      dispatch(animeById(id));
     }
   })
 )(Info);

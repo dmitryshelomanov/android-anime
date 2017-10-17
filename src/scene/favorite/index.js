@@ -6,12 +6,17 @@ import {
   ScrollView,
   FlatList,
   RefreshControl,
-  AsyncStorage
+  AsyncStorage,
+  Image,
+  Dimensions,
+  Modal
 } from 'react-native';
 
 import { connect } from "react-redux";
 
 import { getFavorite } from "../../redux/actions/getAnime";
+
+import AutoHeightImage from 'react-native-auto-height-image';
 
 import Card from "../../components/anime/card";
 import ToUp from "../../components/toUp";
@@ -21,25 +26,16 @@ class Favorite extends Component {
   constructor(props) { 
     super(props);
     this.state = {
-      y: 0,
-      refreshing: true
+      y: 0
     };
   }
 
   componentWillMount() { 
-    this.props.onGetFavorite(() => { 
-      this.setState({
-        refreshing: false
-      });
-    });
+    this.props.onGetFavorite();
   }
 
   _hundleRefresh() { 
-    this.props.onGetFavorite(() => { 
-      this.setState({
-        refreshing: false
-      });
-    });
+    this.props.onGetFavorite();
   }
 
   render() {
@@ -53,7 +49,7 @@ class Favorite extends Component {
           scrollY={this.state.y}
         />
         <FlatList
-          data={favorite}
+          data={favorite.data}
           renderItem={({ item }) => <Card item={item} touch={(id, title) => navigation.navigate("AnimeById", { id, title }) }/>}
           keyExtractor={(item) => item.AnimeId}
           ref={(ref) => { _scrollView = ref; }}
@@ -62,7 +58,7 @@ class Favorite extends Component {
           }}
           refreshControl={
             <RefreshControl
-              refreshing={this.state.refreshing}
+              refreshing={favorite.isLoading}
               onRefresh={this._hundleRefresh.bind(this)}
               colors={["red", "green", "black"]}
               progressBackgroundColor="#fff"
@@ -86,8 +82,8 @@ export default connect(
     favorite: state.favorite
   }),
   dispatch => ({
-    onGetFavorite: (cb) => { 
-      dispatch(getFavorite(cb))
+    onGetFavorite: () => { 
+      dispatch(getFavorite())
     }
   })
 )(Favorite);

@@ -21,7 +21,7 @@ class Series extends Component {
 
   _renderSeries() { 
     const { anime } = this.props;
-    let series = anime.Series || [];
+    let series = anime.data.Series || [];
 
     return (
       <View>

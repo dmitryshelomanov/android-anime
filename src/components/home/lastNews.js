@@ -33,24 +33,13 @@ class LastNews extends Component {
   }
 
   componentWillMount() { 
-    const { onGetLastNews } = this.props;
-    onGetLastNews(() => {
-      this.setState({
-        offset: this.state.offset + 4,
-        loading: false
-      });
-    }, true, 0);
+    const { onGetLastNews, lastNews } = this.props;
+    onGetLastNews(true, lastNews.offset);
   }
 
   _newsMore() { 
-    const { onGetLastNews } = this.props;
-    this.setState({ loading: true });
-    onGetLastNews(() => { 
-      this.setState({
-        offset: this.state.offset + 4,
-        loading: false
-      });
-    }, false, this.state.offset);
+    const { onGetLastNews, lastNews } = this.props;
+    onGetLastNews(false, lastNews.offset);
   }
 
   _renderHTML() { 
@@ -75,7 +64,7 @@ class LastNews extends Component {
           <Text style={styles.title}>последние новости</Text>
         </View>
         {
-          !this.state.loading
+          !lastNews.isLoading
           ? null
           : <ActivityIndicator
               animating={this.state.loading}
@@ -84,7 +73,7 @@ class LastNews extends Component {
             />
         }
         {
-          lastNews.map((item, index) => (
+          lastNews.data.map((item, index) => (
             <View
               style={{ flexDirection: direction, marginBottom: 25, width: config.defaultWidth }}
               key={index}
@@ -106,7 +95,7 @@ class LastNews extends Component {
             </View>
           ))
         }
-        {!this.state.loading ? <Text style={styles.more} onPress={() => this._newsMore()}>показать еще</Text> : null}
+        {!lastNews.isLoading ? <Text style={styles.more} onPress={() => this._newsMore()}>показать еще</Text> : null}
         {this.state.webShow ? this._renderHTML() : null}
       </View>
     );
@@ -118,8 +107,8 @@ export default connect(
     lastNews: state.lastNews
   }),
   dispatch => ({
-    onGetLastNews: (cb, clear, offset) => { 
-      dispatch(getlastNews(cb, clear, offset));
+    onGetLastNews: (clear, offset) => { 
+      dispatch(getlastNews(clear, offset));
     }
   })
 )(LastNews);

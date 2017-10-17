@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 class ToUp extends Component {
@@ -25,7 +30,8 @@ class ToUp extends Component {
       </View>
     );
   }
-}
+};
+
 const styles = StyleSheet.create({
   up: {
     position: "absolute",

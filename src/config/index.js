@@ -6,5 +6,8 @@ export default {
   articleImg: "http://api.animaunt.ru/uploads/Article/",
   defaultWidth: (Dimensions.get("window").width < 500)
     ? Dimensions.get("window").width : (Dimensions.get("window").width < 768)
-    ? Dimensions.get("window").width / 2 : Dimensions.get("window").width / 3
+      ? Dimensions.get("window").width / 2 : Dimensions.get("window").width / 3,
+  allAnime: {
+    limit: 20
+  }
 };
