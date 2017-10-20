@@ -33,7 +33,6 @@ class Home extends Component {
           scrollY={this.state.y}
         />
         <ScrollView
-          style={styles.container}
           ref="_scrollView"
           onScroll={(e) => { 
             this.setState({ y: e.nativeEvent.contentOffset.y });

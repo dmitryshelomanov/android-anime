@@ -6,7 +6,6 @@ import React, { Component } from "react";
 
 import AnimeScreen from "../../../scene/anime";
 import HomeScreen from "../../../scene/home";
-import SearchScreen from "../../../scene/search";
 import FavoriteScreen from "../../../scene/favorite";
 
 const TabRouteConfigs = {
@@ -15,7 +14,7 @@ const TabRouteConfigs = {
     navigationOptions: {
       title: "аниме",
       tabBarIcon: ({ tintColor }) => (
-        <Icon name="ios-videocam-outline" size={30} style={{color: tintColor}} />
+        <Icon name="md-videocam" size={30} style={{color: tintColor}} />
       )
     }
   },
@@ -24,16 +23,7 @@ const TabRouteConfigs = {
     navigationOptions: {
       title: "главная",
       tabBarIcon: ({ tintColor }) => (
-        <Icon name="ios-albums-outline" size={30} style={{color: tintColor}} />
-      )
-    }
-  },
-  Search: {
-    screen: SearchScreen,
-    navigationOptions: {
-      title: "поиск",
-      tabBarIcon: ({ tintColor }) => (
-        <Icon name="ios-search-outline" size={30} style={{color: tintColor}} />
+        <Icon name="md-albums" size={30} style={{color: tintColor}} />
       )
     }
   },
@@ -42,7 +32,7 @@ const TabRouteConfigs = {
     navigationOptions: {
       title: "избранные",
       tabBarIcon: ({ tintColor }) => (
-        <Icon name="ios-star-outline" size={30} style={{color: tintColor}} />
+        <Icon name="md-star" size={30} style={{color: tintColor}} />
       )
     }
   }
@@ -56,6 +46,7 @@ const TabNavigatorConfig = {
   animationEnabled: false,
   tabBarOptions: {
     activeTintColor: "#f80000",
+    inactiveTintColor: "#B0BEC5",
     showLabel: false,
     tabStyle: {
       backgroundColor: "#fff"

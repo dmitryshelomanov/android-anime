@@ -94,7 +94,7 @@ class AnimebyId extends Component {
         </View>
 
         <Icon
-          name={this.state.star ? "ios-star-outline" : "ios-star"}
+          name={this.state.star ? "md-add-circle" : "md-close-circle"}
           size={40}
           style={{
             color: "#f80000",
@@ -116,7 +116,7 @@ class AnimebyId extends Component {
             Год: {anime.StartYear}
           </Text>
           <Text style={styles.primaryText}>  
-            Серии: [{anime.Series.length} из {anime.TotalSeriesCount ? anime.TotalSeriesCount : '??'}]
+            Серии: [{anime.Series.length ? anime.Series.length : '??'} из {anime.TotalSeriesCount ? anime.TotalSeriesCount : '??'}]
           </Text>
           <Text style={[styles.primaryText]}>  
             просмотров: {anime.ViewCount}
@@ -162,7 +162,8 @@ const styles = StyleSheet.create({
   infoTitle: {
     color: "#f80000",
     fontSize: 15,
-    lineHeight: 25
+    lineHeight: 25,
+    fontFamily: "Roboto-Medium"
   },
   info: {
     paddingTop: 15,
@@ -174,7 +175,9 @@ const styles = StyleSheet.create({
   primaryText: {
     color: "#2e2e2e",
     fontSize: 15,
-    lineHeight: 25
+    lineHeight: 25,
+    fontFamily: "Roboto-Thin",
+    fontWeight: "bold"
   },
   age: {
     position: "absolute",
@@ -197,6 +200,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: '400',
     lineHeight: 22,
-    letterSpacing: -0.408
+    fontFamily: "Roboto-Thin",
+    flex:1
   }
 });

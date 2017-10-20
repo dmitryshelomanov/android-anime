@@ -16,7 +16,7 @@ import Card from "../../components/anime/card";
 import Config from "../../config";
 
 class Anime extends Component { 
-
+  
   constructor(props) { 
     super(props);
     this.state = {
@@ -69,6 +69,7 @@ class Anime extends Component {
           ref={(ref) => { _scrollView = ref; }}
           onScroll={(e) => { 
             this.setState({ y: e.nativeEvent.contentOffset.y });
+            navigation.setParams({ y: 1 });
           }}
           refreshControl={
             <RefreshControl

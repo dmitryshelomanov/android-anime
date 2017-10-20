@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { connect } from "react-redux";
 import VideoPlayer from 'react-native-video-controls';
+import Orientation from 'react-native-orientation';
 
 class Series extends Component {
 
@@ -31,6 +32,7 @@ class Series extends Component {
               key={index}
               style={styles.series}
               onPress={() => { 
+                Orientation.lockToLandscapeLeft();
                 this.setState({
                   url: item.VideoUrl,
                   visibleModal: true
@@ -47,14 +49,21 @@ class Series extends Component {
 
   _renderPlayer() { 
     return (
-      <Modal>
+      <Modal
+        onRequestClose={() => { 
+          this.setState({
+              url: undefined,
+              visibleModal: false
+            }, () => Orientation.lockToPortrait());
+        }}
+      >
         <VideoPlayer
           source={{ uri: this.state.url }}
           onBack={() => {
             this.setState({
               url: undefined,
               visibleModal: false
-            });
+            }, () => Orientation.lockToPortrait());
           }}
         />
       </Modal>
@@ -81,7 +90,8 @@ const styles = StyleSheet.create({
   series: {
     padding: 15,
     borderBottomWidth: 0.4,
-    borderBottomColor: "#eee"
+    borderBottomColor: "#eee",
+    fontFamily: "Roboto-Thin",
   }
 });
 

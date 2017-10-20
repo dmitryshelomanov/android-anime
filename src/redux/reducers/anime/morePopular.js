@@ -14,7 +14,7 @@ export default (state = initialState, action) => {
     case "Anime/POPULAR_END": return {
       ...state,
       data: action.payload,
-      isLoading: false
+      isLoading: true
     };
     case "Anime/POPULAR_ERROR": return {
       ...state,

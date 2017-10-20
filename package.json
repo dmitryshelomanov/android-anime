@@ -13,6 +13,8 @@
 		"react-native": "0.49.1",
 		"react-native-auto-height-image": "^0.3.3",
 		"react-native-collapsible-header": "git+https://github.com/sonaye/react-native-collapsible-header.git",
+		"react-native-material-ui": "^1.14.0",
+		"react-native-orientation": "^3.1.0",
 		"react-native-splash-screen": "^3.0.1",
 		"react-native-vector-icons": "^4.4.0",
 		"react-native-video": "^2.0.0",
@@ -28,10 +30,16 @@
 		"babel": "^6.23.0",
 		"babel-jest": "21.2.0",
 		"babel-preset-react-native": "4.0.0",
+		"console-remote-client": "^0.4.3",
 		"jest": "21.2.1",
 		"react-test-renderer": "16.0.0-beta.5"
 	},
 	"jest": {
 		"preset": "react-native"
+	},
+	"rnpm": {
+		"assets": [
+			"./src/assets/fonts/Roboto"
+		]
 	}
 }

@@ -13,7 +13,6 @@ import {
 import config from "../../config";
 
 class Gallery extends Component {
-  
   constructor(props) { 
     super(props);
     this.state = {
@@ -59,6 +58,14 @@ class Gallery extends Component {
 
     return (
       <ScrollView>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            flexDirection: "row"
+          }}
+        >
         {
           dataURI.map((uri, index) => (
             <TouchableHighlight
@@ -73,13 +80,14 @@ class Gallery extends Component {
                 source={{ uri: `${config.animeImg}${id}/${uri}` }}
                 style={{
                   height: 150,
-                  width: config.defaultWidth,
+                  width: 150,
                   resizeMode: "cover"
                 }}
               />
             </TouchableHighlight>
           ))
         }
+        </View>
       </ScrollView>
     );
   }

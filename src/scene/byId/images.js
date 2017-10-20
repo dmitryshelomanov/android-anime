@@ -29,7 +29,8 @@ const styles = StyleSheet.create({
   },
   noImage: {
     padding: 15,
-    fontWeight: "bold"
+    fontWeight: "bold",
+    fontFamily: "Roboto-Medium",
   }
 });
 

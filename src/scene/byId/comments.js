@@ -4,35 +4,30 @@ import {
   Text,
   StyleSheet,
   FlatList,
-  RefreshControl,
+  RefreshControl
 } from 'react-native';
-
 import { connect } from "react-redux";
-
-import { getFavorite } from "../../redux/actions/getAnime";
-
-import Card from "../../components/anime/card";
+import { getComments } from "../../redux/actions/comments";
+import CommentsCard from "../../components/anime/commentsCard";
 import ToUp from "../../components/toUp";
 
-class Favorite extends Component {
+class Comments extends Component {
 
   constructor(props) { 
     super(props);
     this.state = {
       y: 0
     };
-  }
+  } 
 
   componentWillMount() { 
-    this.props.onGetFavorite();
-  }
-
-  _hundleRefresh() { 
-    this.props.onGetFavorite();
+    const { params } = this.props.navigation.state;
+    const { onGetComments, comm } = this.props;
+    onGetComments(true, params.id, comm.offset);
   }
 
   render() {
-    const { favorite, navigation } = this.props;
+    const { comm } = this.props;
     let _scrollView = undefined;
 
     return (
@@ -42,13 +37,18 @@ class Favorite extends Component {
           scrollY={this.state.y}
         />
         <FlatList
-          data={favorite.data}
-          renderItem={({ item }) => <Card item={item} touch={(id, title) => navigation.navigate("AnimeById", { id, title }) }/>}
-          keyExtractor={(item) => item.AnimeId}
+          data={comm.data}
+          renderItem={({ item }) =>   
+            <CommentsCard item={item}
+          />}
+          keyExtractor={(item) => item.CommentId}
+          ref={(ref) => { _scrollView = ref; }}
+          onScroll={(e) => { 
+            this.setState({ y: e.nativeEvent.contentOffset.y });
+          }}
           refreshControl={
             <RefreshControl
-              refreshing={favorite.isLoading}
-              onRefresh={this._hundleRefresh.bind(this)}
+              refreshing={comm.isLoading}
               colors={["red", "green", "black"]}
               progressBackgroundColor="#fff"
             />
@@ -57,6 +57,7 @@ class Favorite extends Component {
       </View>
     );
   }
+
 };
 
 const styles = StyleSheet.create({
@@ -68,11 +69,11 @@ const styles = StyleSheet.create({
 
 export default connect(
   state => ({
-    favorite: state.favorite
+    comm: state.comments
   }),
   dispatch => ({
-    onGetFavorite: () => { 
-      dispatch(getFavorite())
+    onGetComments: (clear, id, offset) => { 
+      dispatch(getComments(clear, id, offset));
     }
   })
-)(Favorite);
+)(Comments);

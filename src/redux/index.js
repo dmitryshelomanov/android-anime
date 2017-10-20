@@ -8,6 +8,8 @@ import animeById from './reducers/anime/animeById';
 import favorite from './reducers/anime/favorite';
 import search from './reducers/anime/search';
 
+import comments from './reducers/comments';
+
 import lastNews from './reducers/article/lastNews';
 
 export default combineReducers({
@@ -17,5 +19,6 @@ export default combineReducers({
   lastNews,
   animeById,
   favorite,
-  search
+  search,
+  comments
 });

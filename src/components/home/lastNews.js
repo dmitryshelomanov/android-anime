@@ -20,6 +20,10 @@ import { getlastNews } from "../../redux/actions/article";
 
 import ImagePreload from "../../components/image/imagesPreload";
 
+import { Card, Button } from 'react-native-material-ui';
+
+import CardNews from "./lastnews/cardNews";
+
 class LastNews extends Component {
 
   constructor(props) { 
@@ -60,7 +64,7 @@ class LastNews extends Component {
     return (
       <View>
         <View style={{flexDirection: "row", alignItems: "center", padding: 10 }}>
-          <Icon name="ios-paper-outline" size={30} style={{ color: "#f80000", marginRight: 20 }} />
+          <Icon name="md-paper" size={30} style={{ color: "#f80000", marginRight: 20 }} />
           <Text style={styles.title}>последние новости</Text>
         </View>
         {
@@ -74,28 +78,26 @@ class LastNews extends Component {
         }
         {
           lastNews.data.map((item, index) => (
-            <View
-              style={{ flexDirection: direction, marginBottom: 25, width: config.defaultWidth }}
-              key={index}
-            >
-              <ImagePreload
-                width={config.defaultWidth}
-                uri={`${config.articleImg}${item.ArticleId}/${item.ImageUrl}`}
-              />
-              <Text
-                style={{ color: "#f80000", fontSize: 15, padding: 5 }}
-                onPress={() => this.setState({
-                  url: item.AltTitle,
-                  webShow: true
-                })}
-              >
-                {item.Title}
-              </Text>
-              <Text style={{ padding: 5 }}>{item.ShortDescription}</Text>
-            </View>
+            <CardNews
+              key={index}  
+              onPress={() => this.setState({
+                url: item.AltTitle,
+                webShow: true
+              })}
+              item={item}
+            /> 
           ))
         }
-        {!lastNews.isLoading ? <Text style={styles.more} onPress={() => this._newsMore()}>показать еще</Text> : null}
+        {!lastNews.isLoading
+          ? <View style={{ padding: 15 }}>
+              <Button
+                primary
+                text="показать еще"
+                raised={true}
+                onPress={() => this._newsMore()}
+              />
+            </View>
+          : null}
         {this.state.webShow ? this._renderHTML() : null}
       </View>
     );

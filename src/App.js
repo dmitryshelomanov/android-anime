@@ -6,6 +6,8 @@ import AppReducer from "./redux";
 import thunk from "redux-thunk";
 import logger from 'redux-logger'
 import hundleProggres from "./helpers/middleware/hundleProggres";
+import { COLOR, ThemeProvider } from 'react-native-material-ui';
+
 
 export default class App extends Component {
 
@@ -25,7 +27,9 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={this.store}>
-        <AppNavigator/>
+        <ThemeProvider uiTheme={{}}>
+          <AppNavigator />
+        </ThemeProvider>  
       </Provider>
     );
   }

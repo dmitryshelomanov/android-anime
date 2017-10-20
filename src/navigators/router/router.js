@@ -2,13 +2,14 @@ import {
   TabNavigator,
   StackNavigator,
   TabBarBottom,
-  Header
 } from "react-navigation";
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import React, { Component } from "react";
 import MainNav from "./stack/main";
 import AnimeNav from "./stack/anime";
+
+import Header from "../../components/header"
 
 const StackRouteConfigs = {
   Main: {
@@ -23,8 +24,9 @@ const StackRouteConfigs = {
 
 const StackNavigatorConfig = {
   initialRouteName: "Main",
-  headerMode: "float",
-  mode: "modal"
+  navigationOptions: {
+    header: props => <Header {...props}/>
+  }
 };
 
 const Router = StackNavigator(StackRouteConfigs, StackNavigatorConfig);

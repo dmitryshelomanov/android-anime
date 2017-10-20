@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -10,38 +10,33 @@ import {
 import arraytoString from "../../helpers/arrayToString";
 import config from "../../config"
 import ImagePreload from '../../components/image/imagesPreload';
+import { Card } from 'react-native-material-ui';
 
-class Card extends Component {
-  render() {
-    const { item, touch } = this.props;
-
-    return (
-      <View style={styles.card}>
-        <View style={styles.age}> 
-          <Text style={{ color: "#fff", fontWeight: "bold" }}>{item.AgeLimit}+</Text>
-        </View>
-        <ImagePreload
-          width={config.defaultWidth}
-          uri={`${config.animeImg}${item.AnimeId}/${item.ImageUrl}`}
-        />
-        <View style={styles.info}>
-          <Text style={styles.infoTitle} onPress={() => touch(item.AnimeId, item.Title)}>  
-            {item.Title}
-          </Text>
-          <Text style={styles.primaryText}>  
-            Серии: [{item.CountSeries} из {item.TotalSeriesCount ? item.TotalSeriesCount : '??'}]
-          </Text>
-          <Text style={[styles.primaryText]}>  
-            просмотров - {item.ViewCount}
-          </Text>
-          <Text style={[styles.primaryText, {color: "#657182"}]}>  
-            {arraytoString(item.Genres, "Title")}
-          </Text>
-        </View>
-      </View>
-    );
-  }
-}
+export default ({ item, touch }) => (
+  <Card onPress={() => touch(item.AnimeId, item.Title)}>
+    <View style={styles.age}>
+      <Text style={{ color: "#fff", fontWeight: "bold" }}>{item.AgeLimit}+</Text>
+    </View>
+    <ImagePreload
+      width={config.defaultWidth}
+      uri={`${config.animeImg}${item.AnimeId}/${item.ImageUrl}`}
+    />
+    <View style={styles.info}>
+      <Text style={styles.infoTitle}>
+        {item.Title}
+      </Text>
+      <Text style={[styles.primaryText, { fontWeight: "bold" }]}>
+        Серии: [{item.CountSeries} из {item.TotalSeriesCount ? item.TotalSeriesCount : '??'}]
+    </Text>
+      <Text style={[styles.primaryText, { fontWeight: "bold" }]}>
+        просмотров - {item.ViewCount}
+      </Text>
+      <Text style={[styles.primaryText, { color: "#657182" }]}>
+        {arraytoString(item.Genres, "Title")}
+      </Text>
+    </View>
+  </Card>
+);
 
 const styles = StyleSheet.create({
   card: {
@@ -52,7 +47,8 @@ const styles = StyleSheet.create({
   infoTitle: {
     color: "#f80000",
     fontSize: 15,
-    lineHeight: 25
+    lineHeight: 25,
+    fontFamily: "Roboto-Medium"
   },
   info: {
     paddingTop: 15,
@@ -62,7 +58,8 @@ const styles = StyleSheet.create({
   primaryText: {
     color: "#2e2e2e",
     fontSize: 15,
-    lineHeight: 25
+    lineHeight: 25,
+    fontFamily: "Roboto-Thin"
   },
   age: {
     position: "absolute",
@@ -86,4 +83,3 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Card;

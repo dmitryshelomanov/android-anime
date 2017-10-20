@@ -1,7 +1,7 @@
 const initialState = {
   isLoading: true,
   isError: false,
-  data: []
+  data: {}
 };
 
 export default (state = initialState, action) => {
